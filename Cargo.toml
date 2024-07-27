@@ -1,0 +1,15 @@
+[package]
+name = "icp-test"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.86"
+candid = "0.10.9"
+ic-agent = { version = "0.37.1", features = ["pem"] }
+ic-utils = "0.37.0"
+rand = "0.8.5"
+serde = "1.0.204"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
