@@ -1,13 +1,13 @@
 mod todo_canister;
 use std::net::SocketAddr;
-use todo_canister::{add_todo, get_todos, initialize, toggle_todo_by_id};
+use todo_canister::{get_todos, initialize, toggle_todo_by_id};
 // use anyhow::Result;
 use tower_http::cors::{CorsLayer, Any};
 
 use axum::{Router, routing::get, extract::Path};
 use tokio::net::TcpListener;
 
-use serde_json::{json, Value};
+use serde_json::json;
 use axum::Json;
 
 async fn hello_world() -> &'static str {

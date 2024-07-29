@@ -1,6 +1,5 @@
 // pub mod todo_canister {
     use anyhow::Result;
-    use axum::extract::Path;
     use ic_agent::export::Principal;
     use ic_agent::Agent;
     use ic_agent::identity::Secp256k1Identity;
