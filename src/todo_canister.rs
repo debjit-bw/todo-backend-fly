@@ -1,5 +1,6 @@
 // pub mod todo_canister {
     use anyhow::Result;
+    use axum::extract::Path;
     use ic_agent::export::Principal;
     use ic_agent::Agent;
     use ic_agent::identity::Secp256k1Identity;
@@ -104,6 +105,7 @@
     }
 
     pub async fn toggle_todo_by_id(todo_id: u64) -> Option<Todo> {
+    // pub async fn toggle_todo_by_id(Path(todo_id): Path<u64>) -> Option<Todo> {
         let response = AGENT.get().expect("AGENT not initialized").update(&PRINCIPAL.get().expect("PRINCIPAL not set"), "toggleTodo")
             .with_arg(Encode!(&(todo_id as u64)).unwrap())
             .call_and_wait()

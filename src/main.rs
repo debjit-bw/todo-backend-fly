@@ -1,10 +1,10 @@
 mod todo_canister;
 use std::net::SocketAddr;
-use todo_canister::{add_todo, get_todos, initialize};
+use todo_canister::{add_todo, get_todos, initialize, toggle_todo_by_id};
 // use anyhow::Result;
 use tower_http::cors::{CorsLayer, Any};
 
-use axum::{Router, routing::get};
+use axum::{Router, routing::get, extract::Path};
 use tokio::net::TcpListener;
 
 use serde_json::{json, Value};
@@ -36,6 +36,9 @@ async fn main() {
         .route("/", get(hello_world))
         .route("/todos", get(|| async {
             Json(json!(get_todos().await))
+        }))
+        .route("/toggle/:id", get(|Path(id): Path<u64>| async move {
+            Json(json!(toggle_todo_by_id(id).await))
         }))
         // .route("/add", get(|| async { Json(add_todo().await) }))
         .layer(cors);
