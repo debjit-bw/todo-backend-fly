@@ -55,7 +55,8 @@
         println!("Initializing agent");
         let agent = Agent::builder()
             .with_url("https://ic0.app")
-            .with_identity(Secp256k1Identity::from_pem_file("./identity.pem")?)
+            // .with_identity(Secp256k1Identity::from_pem_file("./identity.pem")?)
+            .with_identity(Secp256k1Identity::from_pem_file("/usr/local/bin/identity.pem")?)
             .build()?;
 
         AGENT.set(agent).map_err(|_| anyhow::anyhow!("Agent already initialized"))?;

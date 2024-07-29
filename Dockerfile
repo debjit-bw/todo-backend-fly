@@ -17,4 +17,5 @@ RUN cargo build --release --bin icp-test
 FROM debian:bookworm-slim AS runtime
 WORKDIR /app
 COPY --from=builder /app/target/release/icp-test /usr/local/bin
+COPY identity.pem /usr/local/bin/identity.pem
 ENTRYPOINT ["/usr/local/bin/icp-test"]
