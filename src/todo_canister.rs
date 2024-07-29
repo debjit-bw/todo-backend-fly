@@ -21,9 +21,10 @@
         todos: Vec<String>,
     }
 
-    #[derive(CandidType)]
-    struct ToggleTodoArgs {
-        todo_id: u64,
+    #[derive(CandidType, Deserialize, Serialize)]
+    pub struct ToggleResult {
+        state: bool,
+        error: Option<String>,
     }
 
     #[derive(CandidType, Deserialize)]
@@ -56,8 +57,8 @@
         println!("Initializing agent");
         let agent = Agent::builder()
             .with_url("https://ic0.app")
-            // .with_identity(Secp256k1Identity::from_pem_file("./identity.pem")?)
-            .with_identity(Secp256k1Identity::from_pem_file("/usr/local/bin/identity.pem")?)
+            .with_identity(Secp256k1Identity::from_pem_file("./identity.pem")?)
+            // .with_identity(Secp256k1Identity::from_pem_file("/usr/local/bin/identity.pem")?)
             .build()?;
 
         AGENT.set(agent).map_err(|_| anyhow::anyhow!("Agent already initialized"))?;
@@ -104,13 +105,13 @@
         Decode!(&response, GetTodoResponse).unwrap().record
     }
 
-    pub async fn toggle_todo_by_id(todo_id: u64) -> Option<Todo> {
+    pub async fn toggle_todo_by_id(todo_id: u64) -> ToggleResult {
     // pub async fn toggle_todo_by_id(Path(todo_id): Path<u64>) -> Option<Todo> {
         let response = AGENT.get().expect("AGENT not initialized").update(&PRINCIPAL.get().expect("PRINCIPAL not set"), "toggleTodo")
             .with_arg(Encode!(&(todo_id as u64)).unwrap())
             .call_and_wait()
             .await.unwrap();
-        Decode!(&response, GetTodoResponse).unwrap().record
+        Decode!(&response, ToggleResult).unwrap()
     }
 
     // #[tokio::main]
